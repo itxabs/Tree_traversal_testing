@@ -26,7 +26,7 @@ public:
   front = -1;
   rear = -1;
 }
- void EnQueue(Node *x)
+ void EnQueue(Node * x)
   {
     if (Isfull())
     {
@@ -35,21 +35,29 @@ public:
     if (front == -1) 
     {
           front = 0;
+          Q[front]=x;
     }
     else  
     Q[++rear] = x;
   }
-  Node* deQueue()
+  void deQueue()
   {
     if (IsEmtpy()) 
     {
       cout << "Queue is empty." << endl;
-      return 0;
+      return ;
     }
     else 
     {
-      front++;
-      return Q[front];
+      
+        for (int i = front; i < rear; ++i) {
+            Q[i] = Q[i + 1];
+        }
+        rear--;
+        if (rear < front) {
+            front = rear = -1; // Reset the queue when it becomes empty
+        }
+        
     }
   }
   bool Isfull()
@@ -58,7 +66,13 @@ public:
   }
   bool IsEmtpy()
   {
-    return rear == -1 && front == -1;
+    if(rear == -1 && front == -1)
+
+  {
+  return true;}
+  else {
+    return false;
+  }
   }
   Node* getFront() {
     if (IsEmtpy()) {
@@ -67,9 +81,10 @@ public:
     }
     else {
       return Q[front];
+
     }
   }
-  
+
 };
 class Bt
 {
@@ -85,7 +100,7 @@ void Inorder(Node* root)
     Inorder(root->left);
     cout<<root->key<<" ";
     Inorder(root->right);
-    
+
   }
 }
 void Preorder(Node* root)
@@ -110,18 +125,21 @@ void Postorder(Node* root)
 
 void Levelwise(Node* root)
 {
-
   if(root==NULL)
   {
     return ;
+
   }
   Queue q;
     q.EnQueue(root);
-    while(q.IsEmtpy()== false)
-      {
-        Node* curr = q.getFront();
+
+    while(q.IsEmtpy()==false)
+      { 
+         Node* curr = q.getFront();
+        //cout<<"value "<<curr->key;
         q.deQueue();
         cout<<curr->key<<" ";
+
         if(curr->left!=NULL)
         {
           q.EnQueue(curr->left);
@@ -130,6 +148,8 @@ void Levelwise(Node* root)
         {
           q.EnQueue(curr->right);
         }
+
+
       }
 }
 
@@ -137,21 +157,24 @@ void Levelwise(Node* root)
 int main()
 {
 
-
   Bt tree;
   tree.root=new Node(10);
+  /*Queue q1;
+q1.EnQueue(tree.root);
+cout<<"memory allocation is "<<q1.getFront()<<endl;*/  
   tree.root->left=new Node(20);
   tree.root->right=new Node(30);
   tree.root->right->left=new Node(40);
   tree.root->right->right=new Node(50);
 
-  tree.Preorder(tree.root);
+ tree.Preorder(tree.root);
   cout<<"\n"<<endl;
   tree.Postorder(tree.root);
   cout<<"\n"<<endl;
   tree.Inorder(tree.root);
   cout<<"\n"<<endl;
   cout<<"Line wise"<<endl;
+
   tree.Levelwise(tree.root);
   return 0;
 }
