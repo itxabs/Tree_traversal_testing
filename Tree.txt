@@ -158,10 +158,7 @@ int main()
 {
 
   Bt tree;
-  tree.root=new Node(10);
-  /*Queue q1;
-q1.EnQueue(tree.root);
-cout<<"memory allocation is "<<q1.getFront()<<endl;*/  
+  tree.root=new Node(10); 
   tree.root->left=new Node(20);
   tree.root->right=new Node(30);
   tree.root->right->left=new Node(40);
